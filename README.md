@@ -1,13 +1,11 @@
 # Arrowhead integration
-
---------
+The endgoal of this parts is to be able to send data from an IIoT-device trough an adapter to a Provider in a Arrowhead-cloud in another location.
 ## Adapter
 The adapter part is a Spring boot application using Gradle as build tool. It starts a REST API with a POST endpoint
 (/adapter) that takes a string-value. This string value is then returned the same way that it was and also it will print
 the string-value to the console.
 
-This first implementation is only for testing the connection from the IIoT-device. Future versions will send the provided
-data to a Provider in a Arrowhead-cloud that is located in another location.
+This first implementation is only for testing the connection from the IIoT-device.
 ### How to start the adapter
 ###### Prerequisites
 - Java needs to be installed, v.1.8 seems to work but v.11 is recommended.
