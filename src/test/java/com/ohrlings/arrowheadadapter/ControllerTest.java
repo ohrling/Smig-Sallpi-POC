@@ -60,4 +60,12 @@ public class ControllerTest {
         assertThat(appender.search(TEST_DATA, Level.INFO).size()).isEqualTo(1);
         assertThat(appender.contains(TEST_DATA, Level.TRACE)).isFalse();
     }
+
+    @Test
+    public void shouldReturnValidValueUsingSpecialCharacters() {
+        String specialData = "Älskar & @%#¤";
+        var actual = controller.pushData(specialData);
+
+        assertEquals(specialData, actual.getBody());
+    }
 }
