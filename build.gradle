@@ -19,7 +19,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
+	implementation 'com.squareup.okhttp3:okhttp' ///, version: '4.9.1'
     
 }
 

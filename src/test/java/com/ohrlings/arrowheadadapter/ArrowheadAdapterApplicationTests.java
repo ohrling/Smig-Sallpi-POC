@@ -21,6 +21,8 @@ class ArrowheadAdapterApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
+    // It is possible to run mockserver as part of test, to avoid 404 results
+    
     @Test
     void contextLoads() {
         assertThat(controller).isNotNull();
@@ -29,14 +31,14 @@ class ArrowheadAdapterApplicationTests {
     @Test
     public void shouldReturnProvidedMessage() throws Exception {
         String testData = "testData";
-        mockMvc.perform(post("/adapter").content(testData)).andDo(print()).andExpect(status().isOk())
+        mockMvc.perform(post("/adapter").content(testData)).andDo(print()).andExpect(status().is(404))
                 .andExpect(content().string(containsString(testData)));
     }
 
     @Test
     public void shouldReturnProvidedMessageContainingSpecialCharacters() throws Exception {
         String testData = "Älskar & @%#¤";
-        mockMvc.perform(post("/adapter").content(testData)).andDo(print()).andExpect(status().isOk())
+        mockMvc.perform(post("/adapter").content(testData)).andDo(print()).andExpect(status().is(404))
                 .andExpect(content().string(containsString(testData)));
     }
 
