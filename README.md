@@ -10,6 +10,8 @@ This first implementation is only for testing the connection from the IIoT-devic
 ###### Prerequisites
 - Java needs to be installed, v.1.8 seems to work but v.11 is recommended.
 - Gradle needs to be installed https://gradle.org/
+- Every developer need to specify a gradle.properties file in the root-folder. This need to contain the fields userName
+  and userToken since they are using GitHub packages, more info: https://docs.github.com/en/packages/guides/configuring-apache-maven-for-use-with-github-packages
   
  In CLI run **./gradlew bootRun**, works best with Git Bash or Powershell on Win.
  Then just perform a POST request to http.//localhost:8080/adapter (If you run it on your computer that is.)
