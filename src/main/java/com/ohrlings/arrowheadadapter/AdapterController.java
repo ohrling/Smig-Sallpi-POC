@@ -1,65 +1,70 @@
 package com.ohrlings.arrowheadadapter;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.ohrlings.arrowheadadapter.model.ArrowheadService;
+import com.ohrlings.arrowheadadapter.model.ArrowheadSystem;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/adapter")
 public class AdapterController implements Controller {
+	private final Logger log = LoggerFactory.getLogger(AdapterController.class);
 
-	Logger logger = LoggerFactory.getLogger(AdapterController.class);
+	ArrowheadConnection connection;
 
-	// RequestBody exist in both springframework and okhttp. That's why I use classpath
-	@Override
-	@PostMapping
-	public ResponseEntity<String> pushData(@org.springframework.web.bind.annotation.RequestBody String inputJSON) {
-		logger.info(inputJSON);
+	public AdapterController(ArrowheadConnection connection) {
+		this.connection = connection;
+	}
 
-		// These values are set up to be used with mock-server - https://www.mock-server.com/
-		// java -jar <path to jar>mockserver-netty-5.11.2-jar-with-dependencies.jar -serverPort 8585 // To start
-		// http://127.0.0.1:8585/mockserver/dashboard // To monitor calls.
-		// Real values are to be fetched from service registry
-		String protocol = "http";
-		String host = "127.0.0.1";
-		String port = "8585";
-		String path = "/test";
-
-		if(!path.startsWith("/")) {
-			path = "/" + path;
-		}
-		
-		String url = protocol + "://" + host + ":" + port + path;
-
-		OkHttpClient client = new OkHttpClient();
-
-		MediaType mediaType = MediaType.parse("text/plain");
-		okhttp3.RequestBody body = okhttp3.RequestBody.create(mediaType, inputJSON);
-		Request request = new Request.Builder().url(url).post(body)
-//		  .addHeader("cache-control", "no-cache")
-//		  .addHeader("postman-token", "e11ce033-931a-0419-4903-ab860261a91a")
-				.build();
-
-		Response response = null;
-
+	@PostConstruct
+	void init() {
 		try {
-			response = client.newCall(request).execute();
+			ArrowheadSystem system = connection.registerSystem();
+			ArrowheadService service = connection.getServiceInformation(system);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(inputJSON, HttpStatus.valueOf(response.code()));
+		}
+	}
+
+	@Override
+	@PostMapping
+	public ResponseEntity<String> pushData(@RequestBody String inputJSON) {
+		log.debug(inputJSON);
+
+	/*	try {
+			response = arrowheadService.proceedOrchestration(orchestrationRequest);
+		} catch (ArrowheadException exception) {
+			logger.debug("Orchestration request failed. {}", exception.getMessage());
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(inputJSON, HttpStatus.valueOf(response.code()));
+		if(response == null || response.getResponse().isEmpty()) {
+			logger.debug("Orchestration response is empty.");
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+		logger.info(response.getResponse().toString());
+		final OrchestrationResultDTO result = response.getResponse().get(0);
+*/
+		return new ResponseEntity<String>(inputJSON, HttpStatus.OK);
 	}
+
+
+
 }
