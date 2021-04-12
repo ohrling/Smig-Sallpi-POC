@@ -17,9 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -50,7 +47,7 @@ public class ArrowheadConnection {
         requestedService.put("serviceDefinitionRequirement", "historian");
         ArrayNode interfaces = mapper.createArrayNode();
         interfaces.add("HTTP-INSECURE-JSON");
-        requestedService.put("interfaceRequirements", interfaces);
+        requestedService.set("interfaceRequirements", interfaces);
         payload.set("requestedService", requestedService);
         System.out.println(payload);
         return null;
@@ -89,25 +86,4 @@ public class ArrowheadConnection {
             throw new IOException("Didn't get any response from " + registerUrl);
         }
     }
-/*
-    @PreDestroy
-    public boolean removeSystem() {
-        log.info("Removing system from the Arrowhead cloud.");
-        if(arrowheadSystem.getId() != null) {
-            String registerUrl = baseURL + ":" + srPort + "/serviceregistry/mgmt/systems" + "/" + arrowheadSystem.getId();
-            MediaType mediaType = MediaType.parse("application/json");
-            Request request = new Request.Builder().url(registerUrl).delete().build();
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-                if (response.body() != null) {
-                    log.info("System removed from Arrowhead cloud: " + response.body().string());
-                    return true;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }*/
 }
