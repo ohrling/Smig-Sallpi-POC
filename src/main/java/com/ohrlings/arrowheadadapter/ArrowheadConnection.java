@@ -193,7 +193,38 @@ public class ArrowheadConnection {
         return "http://" + address + ":" + port + endpoint;
     }
 
-    public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {
+    public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {'
+
+     /* http://arrowhead.ddns.net:8461/datamanager/historian => 
+        {
+          "systems": [
+            "5g",
+            "somasvalve79"
+          ]
+        }
+
+        http://arrowhead.ddns.net:8461/datamanager/historian/somasvalve79 =>
+        {
+        "services": [
+            "historian"
+            ]
+        }
+
+        http://arrowhead.ddns.net:8461/datamanager/historian/somasvalve79/historian?params=%7B%7D =>
+        [
+          {
+            "bn": "urn:ah:somasvalve79:historian:",
+            "bt": 0
+          },
+          {
+            "n": "string",
+            "u": "string",
+            "v": 0,
+            "vs": "string",
+            "vb": true
+          }
+        ]
+*/
         String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + ""; // TODO: Unknown value endpoint: /datamanager/historian/{systemName}/{serviceName}
         restTemplate.put(datamanagerUri, data);
     }
