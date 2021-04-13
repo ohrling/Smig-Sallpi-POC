@@ -1,7 +1,6 @@
 package com.ohrlings.arrowheadadapter;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.db.names.ColumnName;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 

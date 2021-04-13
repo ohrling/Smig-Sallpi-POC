@@ -2,24 +2,21 @@ package com.ohrlings.arrowheadadapter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.boot.jackson.JsonComponent;
 
-@JsonComponent
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrowheadSystem {
-    private Long id = null;
+    private Long id;
     private String address;
     private String authenticationInfo;
     private int port;
     @JsonProperty(value = "systemName")
     private String name;
-    private String createdAt = null;
-    private String updatedAt = null;
 
     public ArrowheadSystem() {
     }
 
-    public ArrowheadSystem(String address, String authenticationInfo, int port, String name) {
+    public ArrowheadSystem(long id, String address, String authenticationInfo, int port, String name) {
+        this.id = id;
         this.address = address;
         this.authenticationInfo = authenticationInfo;
         this.port = port;
@@ -66,19 +63,4 @@ public class ArrowheadSystem {
         this.name = name;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
