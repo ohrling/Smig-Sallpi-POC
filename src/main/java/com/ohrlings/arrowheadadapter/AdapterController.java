@@ -42,6 +42,7 @@ public class AdapterController implements Controller {
 	@Override
 	@PostMapping
 	public ResponseEntity<String> pushData(@RequestBody String input) {
+		log.info("Data received:\n" + input);
 		connection.sendData(adapterSystem, serviceUri, input);
 		log.info("Data sent.");
 		return new ResponseEntity<>(input, HttpStatus.ACCEPTED);

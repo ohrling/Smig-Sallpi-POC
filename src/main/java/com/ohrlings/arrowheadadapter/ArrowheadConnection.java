@@ -194,7 +194,7 @@ public class ArrowheadConnection {
     }
 
     public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {
-        String datamanagerUri = serviceUri + adapterSystem.getName() + ""; // TODO: Unknown value endpoint: /datamanager/historian/{systemName}/{serviceName}
+        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + ""; // TODO: Unknown value endpoint: /datamanager/historian/{systemName}/{serviceName}
         restTemplate.put(datamanagerUri, data);
     }
 }
