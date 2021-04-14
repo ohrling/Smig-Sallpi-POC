@@ -193,7 +193,7 @@ public class ArrowheadConnection {
         return "http://" + address + ":" + port + endpoint;
     }
 
-    public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {'
+    public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {
 
      /* http://arrowhead.ddns.net:8461/datamanager/historian => 
         {
@@ -225,7 +225,7 @@ public class ArrowheadConnection {
           }
         ]
 */
-        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + ""; // TODO: Unknown value endpoint: /datamanager/historian/{systemName}/{serviceName}
+        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + "somashistorian";
         restTemplate.put(datamanagerUri, data);
     }
 }

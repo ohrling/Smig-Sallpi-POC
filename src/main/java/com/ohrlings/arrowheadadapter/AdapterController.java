@@ -35,7 +35,7 @@ public class AdapterController implements Controller {
 			adapterSystem = connection.getAdapterSystem(24);
 			serviceUri = connection.getServiceUri(adapterSystem.getId());
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 	}
 
