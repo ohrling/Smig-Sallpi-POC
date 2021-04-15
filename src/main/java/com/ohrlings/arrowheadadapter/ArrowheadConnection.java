@@ -4,8 +4,7 @@ import com.ohrlings.arrowheadadapter.model.ArrowheadSystem;
 import com.ohrlings.arrowheadadapter.model.ArrowheadOrchestrationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -225,7 +224,10 @@ public class ArrowheadConnection {
           }
         ]
 */
-        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + "somashistorian";
-        restTemplate.put(datamanagerUri, data);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + "historian";// "somashistorian";
+        HttpEntity<String> entity = new HttpEntity<>(data, headers);
+        restTemplate.exchange(datamanagerUri, HttpMethod.PUT, entity, String.class);
     }
 }
