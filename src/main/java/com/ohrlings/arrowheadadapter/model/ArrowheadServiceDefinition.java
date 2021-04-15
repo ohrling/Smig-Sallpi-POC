@@ -2,12 +2,6 @@ package com.ohrlings.arrowheadadapter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
-"id": 14,
-        "serviceDefinition": "historian",
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrowheadServiceDefinition {
     private long id;

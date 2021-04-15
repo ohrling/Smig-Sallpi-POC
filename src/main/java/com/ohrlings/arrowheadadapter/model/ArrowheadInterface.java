@@ -1,14 +1,5 @@
 package com.ohrlings.arrowheadadapter.model;
 
-/*
-{
-          "id": 2,
-          "interfaceName": "HTTP-INSECURE-JSON",
-          "createdAt": "2021-03-02 12:56:16",
-          "updatedAt": "2021-03-02 12:56:16"
-        }
- */
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

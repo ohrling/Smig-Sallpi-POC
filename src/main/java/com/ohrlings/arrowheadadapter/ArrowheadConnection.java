@@ -12,140 +12,6 @@ import java.io.IOException;
 import java.net.UnknownServiceException;
 import java.util.Objects;
 
-/*
-    System from Service Registry:
- {
-  "id": 24,
-  "systemName": "somasvalve79",
-  "address": "bnearit.se",
-  "port": 1337,
-  "createdAt": "2021-04-12 14:46:55",
-  "updatedAt": "2021-04-12 14:46:55"
- }
-    Orchestration-store rule?:
- {
-  "data": [
-    {
-      "id": 2,
-      "serviceDefinition": {
-        "id": 14,
-        "serviceDefinition": "historian",
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "consumerSystem": {
-        "id": 24,
-        "systemName": "somasvalve79",
-        "address": "bnearit.se",
-        "port": 1337,
-        "createdAt": "2021-04-12 14:46:56",
-        "updatedAt": "2021-04-12 14:46:56"
-      },
-      "foreign": false,
-      "providerSystem": {
-        "id": 10,
-        "systemName": "datamanager",
-        "address": "arrowhead.ddns.net",
-        "port": 8461,
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "providerCloud": null,
-      "serviceInterface": {
-        "id": 2,
-        "interfaceName": "HTTP-INSECURE-JSON",
-        "createdAt": "2021-03-02 12:56:16",
-        "updatedAt": "2021-03-02 12:56:16"
-      },
-      "priority": 1,
-      "attribute": null,
-      "createdAt": "2021-04-12 14:48:50",
-      "updatedAt": "2021-04-12 14:48:50"
-    }
-  ],
-  "count": 1
-  }
-
-  Authorization mgmt/intracloud
- {
-  "data": [
-    {
-      "id": 1,
-      "consumerSystem": {
-        "id": 24,
-        "systemName": "somasvalve79",
-        "address": "bnearit.se",
-        "port": 1337,
-        "createdAt": "2021-04-12 14:46:56",
-        "updatedAt": "2021-04-12 14:46:56"
-      },
-      "providerSystem": {
-        "id": 10,
-        "systemName": "datamanager",
-        "address": "arrowhead.ddns.net",
-        "port": 8461,
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "serviceDefinition": {
-        "id": 14,
-        "serviceDefinition": "historian",
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "interfaces": [
-        {
-          "id": 2,
-          "interfaceName": "HTTP-INSECURE-JSON",
-          "createdAt": "2021-03-02 12:56:16",
-          "updatedAt": "2021-03-02 12:56:16"
-        }
-      ],
-      "createdAt": "2021-04-12 14:55:08",
-      "updatedAt": "2021-04-12 14:55:08"
-    }
-  ],
-  "count": 1
- }
- Orchestrator/orchestration response:
- {
-  "response": [
-    {
-      "provider": {
-        "id": 10,
-        "systemName": "datamanager",
-        "address": "arrowhead.ddns.net",
-        "port": 8461,
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "service": {
-        "id": 14,
-        "serviceDefinition": "historian",
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-      },
-      "serviceUri": "/datamanager/historian",
-      "secure": "NOT_SECURE",
-      "metadata": {},
-      "interfaces": [
-        {
-          "id": 2,
-          "interfaceName": "HTTP-INSECURE-JSON",
-          "createdAt": "2021-03-02 12:56:16",
-          "updatedAt": "2021-03-02 12:56:16"
-        }
-      ],
-      "version": 1,
-      "authorizationTokens": null,
-      "warnings": [
-        "TTL_UNKNOWN"
-      ]
-    }
-  ]
-}
- */
-
 @Service
 public class ArrowheadConnection {
     private final Logger log = LoggerFactory.getLogger(ArrowheadConnection.class);
@@ -192,42 +58,11 @@ public class ArrowheadConnection {
         return "http://" + address + ":" + port + endpoint;
     }
 
-    public void sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {
-
-     /* http://arrowhead.ddns.net:8461/datamanager/historian => 
-        {
-          "systems": [
-            "5g",
-            "somasvalve79"
-          ]
-        }
-
-        http://arrowhead.ddns.net:8461/datamanager/historian/somasvalve79 =>
-        {
-        "services": [
-            "historian"
-            ]
-        }
-
-        http://arrowhead.ddns.net:8461/datamanager/historian/somasvalve79/historian?params=%7B%7D =>
-        [
-          {
-            "bn": "urn:ah:somasvalve79:historian:",
-            "bt": 0
-          },
-          {
-            "n": "string",
-            "u": "string",
-            "v": 0,
-            "vs": "string",
-            "vb": true
-          }
-        ]
-*/
+    public HttpStatus sendData(ArrowheadSystem adapterSystem, String serviceUri, String data) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + "historian";// "somashistorian";
+        String datamanagerUri = serviceUri + "/" + adapterSystem.getName() + "/" + "valvecontrol";
         HttpEntity<String> entity = new HttpEntity<>(data, headers);
-        restTemplate.exchange(datamanagerUri, HttpMethod.PUT, entity, String.class);
+        return restTemplate.exchange(datamanagerUri, HttpMethod.PUT, entity, String.class).getStatusCode();
     }
 }

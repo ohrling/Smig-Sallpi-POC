@@ -1,15 +1,5 @@
 package com.ohrlings.arrowheadadapter.model;
 
-/*
-"id": 10,
-        "systemName": "datamanager",
-        "address": "arrowhead.ddns.net",
-        "port": 8461,
-        "createdAt": "2021-03-17 14:08:11",
-        "updatedAt": "2021-03-17 14:08:11"
-
- */
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

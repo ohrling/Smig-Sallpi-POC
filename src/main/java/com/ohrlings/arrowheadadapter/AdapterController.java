@@ -44,8 +44,18 @@ public class AdapterController implements Controller {
 	@PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> pushData(@RequestBody String input) {
 		log.info("Data received:\n" + input);
-		connection.sendData(adapterSystem, serviceUri, input);
-		log.info("Data sent.");
-		return new ResponseEntity<>(input, HttpStatus.ACCEPTED);
+		final HttpStatus statusCode = connection.sendData(adapterSystem, serviceUri, input);
+		if (statusCode == HttpStatus.OK) {
+			log.info("Data sent.");
+			return new ResponseEntity<>(input, HttpStatus.OK);
+		} else if (statusCode == HttpStatus.BAD_REQUEST) {
+			log.info("The data is malformed and not accepted by the service.");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
+			log.info("This service is unauthorized. Need to check the rules in Arrowhead-Authenticator.");
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		log.info("Unknown error from service.");
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

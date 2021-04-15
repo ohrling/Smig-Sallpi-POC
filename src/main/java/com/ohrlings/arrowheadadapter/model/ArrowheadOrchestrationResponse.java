@@ -1,18 +1,9 @@
 package com.ohrlings.arrowheadadapter.model;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.boot.jackson.JsonComponent;
 
 import java.util.List;
 
-/*
-* {
-  "response": [
-
-  ]
-}
-* */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrowheadOrchestrationResponse {
     private List<ArrowheadService> response;

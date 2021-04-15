@@ -5,28 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import java.util.Map;
 
-/*
-{
-      "provider": {
-
-      },
-      "service": {
-
-      },
-      "serviceUri": "/datamanager/historian",
-      "secure": "NOT_SECURE",
-      "metadata": {},
-      "interfaces": [
-
-      ],
-      "version": 1,
-      "authorizationTokens": null,
-      "warnings": [
-        "TTL_UNKNOWN"
-      ]
-    }
- */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArrowheadService {
     private ArrowheadProvider provider;
